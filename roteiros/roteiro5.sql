@@ -1,4 +1,5 @@
 --ARIEL ROQUE INACIO LUZ--
+
 --QUESTAO 1--
 SELECT
     COUNT(*)
@@ -114,7 +115,7 @@ GROUP BY
     e.ssn
 ORDER BY
     COUNT(w.essn);
-    
+
 --QUESTAO 12--
     --QUESTAO 13--
     --QUESTAO 14--
