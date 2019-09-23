@@ -15,6 +15,7 @@ FROM
 WHERE
     sex = 'M'
     AND address LIKE '%TX';
+    
 --QUESTAO 3--
 SELECT
     s.ssn AS ssn_supervisor,
