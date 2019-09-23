@@ -1,4 +1,5 @@
---ARIEL ROQUE INACIO LUZ--
+-- Roteiro 5
+--Ariel Roque UFCG--
 
 --QUESTAO 1--
 SELECT
@@ -7,6 +8,7 @@ FROM
     employee
 WHERE
     sex = 'F';
+
 --QUESTAO 2--
 SELECT
     AVG(salary)
@@ -27,6 +29,7 @@ GROUP BY
     ssn_supervisor
 ORDER BY
     qtd_supervisionados;
+
 --QUESTAO 4--
 SELECT
     s.fname AS nome_supervisor,
@@ -38,23 +41,53 @@ GROUP BY
     s.fname
 ORDER BY
     COUNT(*);
+
 --QUESTAO 5--
-    --QUESTAO 6--
 SELECT
-    proj AS num_projeto,
+    s.fname AS nome_supervisor,
+    COUNT(*) AS qtd_supervisionados
+FROM
+    employee AS e
+    LEFT JOIN employee AS s ON s.ssn = e.superssn
+GROUP BY
+    s.fname
+ORDER BY
+    COUNT(*);
+
+--QUESTAO 6--
+
+SELECT
     MIN(qtd) AS qtd_empregados
 FROM
     (
         SELECT
-            pno AS proj,
             COUNT(essn) AS qtd
         FROM
             works_on
         GROUP BY
             pno
     ) as qtds;
+
 --QUESTAO 7--
-    --QUESTAO 8--
+SELECT pno AS proj,
+       COUNT(essn) AS qtd
+FROM works_on
+
+GROUP BY pno
+
+HAVING COUNT(essn) = (
+    SELECT MIN(qtd) AS qtd_empregados
+    FROM (
+        SELECT
+            COUNT(essn) AS qtd
+        FROM
+            works_on
+        GROUP BY
+            pno
+    ) as qtds);       
+
+
+--QUESTAO 8--
 SELECT
     w.pno AS num_proj,
     AVG(e.salary)
