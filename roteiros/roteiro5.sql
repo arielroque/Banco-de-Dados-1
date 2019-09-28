@@ -17,7 +17,7 @@ FROM
 WHERE
     sex = 'M'
     AND address LIKE '%TX';
-    
+
 --QUESTAO 3--
 SELECT
     s.ssn AS ssn_supervisor,
@@ -55,7 +55,6 @@ ORDER BY
     COUNT(*);
 
 --QUESTAO 6--
-
 SELECT
     MIN(qtd) AS qtd_empregados
 FROM
@@ -69,23 +68,27 @@ FROM
     ) as qtds;
 
 --QUESTAO 7--
-SELECT pno AS proj,
-       COUNT(essn) AS qtd
-FROM works_on
-
-GROUP BY pno
-
-HAVING COUNT(essn) = (
-    SELECT MIN(qtd) AS qtd_empregados
-    FROM (
+SELECT
+    pno AS proj,
+    COUNT(essn) AS qtd
+FROM
+    works_on
+GROUP BY
+    pno
+HAVING
+    COUNT(essn) = (
         SELECT
-            COUNT(essn) AS qtd
+            MIN(qtd) AS qtd_empregados
         FROM
-            works_on
-        GROUP BY
-            pno
-    ) as qtds);       
-
+            (
+                SELECT
+                    COUNT(essn) AS qtd
+                FROM
+                    works_on
+                GROUP BY
+                    pno
+            ) as qtds
+    );
 
 --QUESTAO 8--
 SELECT
@@ -98,20 +101,21 @@ WHERE
     e.ssn = w.essn
 GROUP BY
     pno;
---QUESTAO 9-- !!
+
+--QUESTAO 9--
 SELECT
-    w.pno AS proj_num,
+    p.pnumber AS proj_num,
     p.pname AS proj_nome,
     AVG(e.salary) AS media_sal
 FROM
-    works_on as w,
-    employee as e,
     project as p
-WHERE
-    e.ssn = w.essn
-    AND w.pno = p.pnumber
+    JOIN works_on AS w ON w.pno = p.pnumber
+    JOIN employee AS e ON e.ssn = w.essn
+
 GROUP BY
-    pno;
+    proj_num
+ORDER BY media_sal
+
 --QUESTAO 10--
 SELECT
     distinct e.fname,
@@ -138,20 +142,69 @@ WHERE
             w.essn = e.ssn
             AND w.pno = 92
     );
+
 --QUESTAO 11--
 SELECT
     e.ssn,
     COUNT(w.essn) AS qtd_proj
 FROM
     employee as e
-    LEFT JOIN works_on AS w on e.ssn = w.essn
+    LEFT JOIN works_on AS w ON e.ssn = w.essn
 GROUP BY
     e.ssn
 ORDER BY
     COUNT(w.essn);
 
 --QUESTAO 12--
-    --QUESTAO 13--
-    --QUESTAO 14--
-    --QUESTAO 15--
-    --QUESTAO 16--
+SELECT
+    w.pno AS num_proj,
+    COUNT(e.ssn) AS qtd_func
+FROM
+    employee AS e
+    LEFT JOIN works_on AS W ON e.ssn = w.essn
+GROUP BY
+    pno
+HAVING
+    COUNT(e.ssn) < 5
+ORDER BY
+    qtd_func;
+
+--QUESTAO 13--
+SELECT
+    DISTINCT e.fname
+FROM
+    employee AS e,
+    dependent AS d,
+    (
+        SELECT
+            w.essn AS ssn
+        FROM
+            works_on AS w
+        WHERE
+            w.pno IN (
+                SELECT
+                    p.pnumber AS pno
+                FROM
+                    project AS p
+                WHERE
+                    p.plocation = 'Sugarland'
+            )
+    ) AS sugarland_employees
+where
+    e.ssn = sugarland_employees.ssn
+    AND e.ssn = d.essn;
+
+--QUESTAO 14--
+SELECT
+    d.dname
+FROM
+    department AS d
+WHERE
+    NOT EXISTS (
+        SELECT
+            *
+        FROM
+            project AS p
+        WHERE
+            p.dnum = d.dnumber
+    );
