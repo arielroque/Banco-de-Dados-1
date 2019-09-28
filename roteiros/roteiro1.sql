@@ -61,7 +61,7 @@ CREATE TABLE reparo(
     custo NUMERIC
 );
 
--- Definindo chaves primárias -- 
+-- DEFININDO CHAVES PRIMARIAS -- 
 
 ALTER TABLE automovel ADD PRIMARY KEY (chassi);
 ALTER TABLE segurado ADD PRIMARY Key (id);
@@ -72,7 +72,7 @@ ALTER TABLE sinistro ADD PRIMARY KEY(id);
 ALTER TABLE pericia ADD PRIMARY KEY (id);
 ALTER TABLE reparo ADD PRIMARY KEY (id);
 
--- Definindo chaves estrangeiras --
+-- DEFININDO CHAVES ESTRANGEIRAS --
 
 ALTER TABLE segurado ADD CONSTRAINT FK_automovel_segurado FOREIGN KEY (automovel)
 REFERENCES automovel(chassi);
@@ -92,7 +92,7 @@ REFERENCES sinistro(id);
 ALTER TABLE reparo ADD CONSTRAINT FK_seguro_reparo FOREIGN KEY(seguro)
 REFERENCES seguro(id);
 
--- Definindo atributos como NOT NULL
+-- DEFININDO ATRIBUTOS COMO NOT NULL --
 
 ALTER TABLE automovel ALTER COLUMN marca SET NOT NULL;
 ALTER TABLE automovel ALTER COLUMN modelo SET NOT NULL;
@@ -127,7 +127,7 @@ ALTER TABLE pericia ALTER COLUMN laudo SET NOT NULL;
 AlTER TABLE reparo ALTER COLUMN  seguro SET NOT NULL;
 ALTER TABLE reparo ALTER COLUMN  custo SET NOT NULL;
 
--- Criando as tabelas incorporando as definições inseridas no ALTER TABLE --
+-- CRIANDO AS TABELAS INCORPORANDO AS DEFINICOES DE ALTER TABLE --
 
 CREATE TABLE automovel(
     chassi VARCHAR(17),
@@ -191,8 +191,7 @@ CREATE TABLE pericia(
     laudo VARCHAR(500) NOT NULL,
     PRIMARY KEY(id),
     FOREIGN KEY(sinistro) REFERENCES sinistro(id),
-    FOREIGN KEY(perito) REFERENCES perito(cpf)
-    
+    FOREIGN KEY(perito) REFERENCES perito(cpf) 
 );
 
 CREATE TABLE reparo(
@@ -203,6 +202,7 @@ CREATE TABLE reparo(
     PRIMARY KEY(id),
     FOREIGN KEY(seguro) REFERENCES seguro(id)
 );
+
 
 
 

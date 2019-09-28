@@ -14,10 +14,12 @@ INSERT INTO tarefas VALUES (2147483647,
 
 INSERT INTO tarefas VALUES(NULL,NULL,NULL,NULL,NULL);
 
--- nao deve aceitar---
+-- NAO DEVE ACEITAR---
 INSERT INTO tarefas VALUES(2147483644,'limpar chao do corredor superior','987654323211',0,'F');
-INSERT INTO tarefas VALUES(2147483648,'limpar portas do térrreo','32323232955',4,'A');
 
+-- QUESTAO 2 -- 
+
+INSERT INTO tarefas VALUES(2147483648,'limpar portas do térrreo','32323232955',4,'A');
 
 ALTER TABLE tarefas ALTER COLUMN id TYPE NUMERIC;
 
@@ -47,29 +49,29 @@ ALTER TABLE tarefas ALTER COLUMN status SET NOT NULL;
 ALTER TABLE tarefas ADD PRIMARY KEY (id);
 
 INSERT INTO tarefas VALUES(2147483653,'limpar portas do 1o andar','32323232911',2,'A');
--- nao deve funcionar --
+-- NAO DEVE FUNCIONAR --
 INSERT INTO tarefas VALUES(2147483653,'limpar portas do 1o andar','32323232911',2,'A');
 
--- Questao 6 -- 
+-- QUESTAO 6 -- 
 
 --a)--
 ALTER TABLE tarefas ADD CHECK (LENGTH(func_resp_cpf) = 11);
 
--- nao deve funcionar --
+-- NAO DEVE FUNCIONAR --
 INSERT INTO tarefas VALUES(2147483654,'limpar portas do 1o andar','3232323291',2,'A');
 INSERT INTO tarefas VALUES(2147483655,'limpar portas do 1o andar','323232329132',2,'A');
---b)--
 
+--b)--
 UPDATE tarefas SET status = 'P' WHERE status ='A';
 UPDATE tarefas SET status = 'R' WHERE status = 'E';
 UPDATE tarefas SET status = 'F' WHERE status = 'C';
 
 ALTER TABLE tarefas ADD CHECK (status = 'P' OR status = 'R' OR status = 'F');
 
---Questao 7 --
+--QUESTAO 7 --
 ALTER TABLE tarefas ADD CHECK (prioridade BETWEEN 0 AND 5);
 
--- Questao 8 --
+-- QUESTAO 8 --
 
 CREATE TABLE funcionario(
   cpf VARCHAR(11),
@@ -91,11 +93,11 @@ VALUES ('12345678911','1980-05-07','Pedro da Silva','SUP_LIMPEZA','S',NULL);
 INSERT INTO funcionario(cpf,data_nasc,nome,funcao,nivel,superior_cpf) 
 VALUES ('12345678912','1980-03-08','Jose da Silva','LIMPEZA','J','12345678911');
 
--- Nao deve funcionar--
+-- NAO DEVE FUNCIONAR--
 INSERT INTO funcionario(cpf,data_nasc,nome,funcao,nivel,superior_cpf) 
 VALUES ('12345678913','1980-04-09','Joao da Silva','LIMPEZA','J',NULL);    
 
--- Questao 9 --
+-- QUESTAO 9 --
 INSERT INTO funcionario(cpf,data_nasc,nome,funcao,nivel,superior_cpf) 
 VALUES ('12345678914','1980-04-09','Gil da Silva','SUP_LIMPEZA','J',NULL);   
 
@@ -126,7 +128,7 @@ VALUES ('12345678922','1980-04-09','Matheus da Silva','LIMPEZA','J','12345678919
 INSERT INTO funcionario(cpf,data_nasc,nome,funcao,nivel,superior_cpf) 
 VALUES ('12345678923','1980-04-09','Bianca da Silva','LIMPEZA','J',NULL);
 
--- nao deve funcionar
+-- NAO DEVE FUNCIONAR --
 
 INSERT INTO funcionario(cpf,data_nasc,nome,funcao,nivel,superior_cpf) 
 VALUES ('12345678924','1980-04-09',NULL,'SUP_LIMPEZA','J',NULL);   
@@ -158,7 +160,7 @@ VALUES ('12345678932','1980-04-09','Matheus da Silva',NULL,'J','12345678919');
 INSERT INTO funcionario(cpf,data_nasc,nome,funcao,nivel,superior_cpf) 
 VALUES ('12345678933','1980-04-09','Bianca da Silva','LIMPEZA','J',NULL);
 
---Questao 10--
+--QUESTAO 10 --
 ALTER TABLE tarefas
 drop constraint FK_funcionario_tarefa;
 
@@ -166,7 +168,7 @@ drop constraint FK_funcionario_tarefa;
 ALTER TABLE tarefas ADD CONSTRAINT FK_funcionario_tarefa FOREIGN KEY (func_resp_cpf) 
 REFERENCES funcionario(cpf) ON DELETE CASCADE;
 
---Questao 11 --
+--QUESTAO 11 --
 
 ALTER TABLE tarefas ALTER COLUMN func_resp_cpf DROP NOT NULL;
 ALTER TABLE tarefas ADD CHECK ((status ='E' AND func_resp_cpf IS NOT NULL) OR (status != 'E' 
